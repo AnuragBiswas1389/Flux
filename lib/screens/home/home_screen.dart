@@ -6,31 +6,18 @@ import 'components/home_header.dart';
 import 'components/popular_product.dart';
 import 'components/special_offers.dart';
 
+import 'package:shop_app/components/product_card.dart';
+import 'package:shop_app/models/Product.dart';
+
+import '../details/details_screen.dart';
+import 'components/banner.dart';
+
 class HomeScreen extends StatelessWidget {
   static String routeName = "/home";
 
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    List<String> imagePaths = [
-      "assets/images/ps4_console_white_1.png",
-      "assets/images/shoe4.png",
-      "assets/images/ps4_console_white_3.png",
-      "assets/images/shoes2.png",
-      "assets/images/tshirt.png",
-      "assets/images/track pant.png",
-      "assets/images/shoe3.png",
-      "assets/images/ps4_console_white_4.png",
-      "assets/images/ps4_console_white_1.png",
-      "assets/images/ps4_console_white_2.png",
-      "assets/images/ps4_console_white_3.png",
-      "assets/images/ps4_console_white_4.png",
-      "assets/images/ps4_console_white_1.png",
-      "assets/images/ps4_console_white_2.png",
-      "assets/images/ps4_console_white_3.png",
-      "assets/images/ps4_console_white_4.png",
-      // Add more image paths as needed
-    ];
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -44,35 +31,32 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 20),
               PopularProducts(),
               SizedBox(height: 20),
-              DiscountBanner(),
+              banner(),
               SizedBox(height: 20),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4),
+                padding: EdgeInsets.symmetric(horizontal: 1),
                 child: GridView.count(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
                   crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.95,
                   children: List.generate(
-                    14,
+                    demoProducts.length,
                     (index) {
                       return Center(
                         child: Column(
                           children: <Widget>[
-                            Image.asset(
-                              imagePaths[index],
-                              width: 195.0, // desired width
-                              height: 140.0,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(
-                                  5.0), // You can adjust the padding value as needed
-                              child: Text(
-                                'controller for ps4 with haptic feedback',
-                                textAlign: TextAlign.center,
+                            ProductCard(
+                              product: demoProducts[index],
+                              onPress: () => Navigator.pushNamed(
+                                context,
+                                DetailsScreen.routeName,
+                                arguments: ProductDetailsArguments(
+                                    product: demoProducts[index]),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );
